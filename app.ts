@@ -1,5 +1,39 @@
 import prompt from "prompt-sync"
 let input = prompt()
+//QUESTÃO 07
+class AplicacaoError extends Error {
+  constructor(mensagem: string) {
+    super(mensagem)
+    this.name = this.constructor.name
+  }
+}
+
+class ContaInexistenteError extends AplicacaoError {
+  constructor(numero: string) {
+    super(`Conta com número ${numero} não encontrada.`)
+  }
+}
+
+class SaldoInsuficienteError extends AplicacaoError {
+  constructor() {
+    super("Saldo insuficiente.")
+  }
+}
+//FIM DA QUESTAO 07
+
+//QUESTAO 10
+class ValorInvalidoError extends AplicacaoError {
+  constructor() {
+    super("Valor inválido para operação.")
+  }
+}
+
+//QUESTAO 12
+class PoupancaInvalidaError extends AplicacaoError {
+  constructor() {
+    super("Operação permitida apenas para contas poupança.")
+  }
+}
 
 export class Conta {
   private numero: string
@@ -33,17 +67,18 @@ export class Conta {
   get Saldo(): number {
     return this.saldo
   }
+  //QUESTAO 11
   private validarValor(valor: number): void {
     if (valor <= 0) {
       throw new ValorInvalidoError()
     }
   }
-
+  //QUESTAO 10
   depositar(valor: number): void {
     this.validarValor(valor)
     this.saldo = this.saldo + valor
   }
-
+  //QUESTAO 10
   sacar(valor: number): void {
     this.validarValor(valor)
 
@@ -104,40 +139,13 @@ export class ContaImposto extends Conta {
   }
 }
 
-class AplicacaoError extends Error {
-  constructor(mensagem: string) {
-    super(mensagem)
-    this.name = this.constructor.name
-  }
-}
-
-class ContaInexistenteError extends AplicacaoError {
-  constructor(numero: string) {
-    super(`Conta com número ${numero} não encontrada.`)
-  }
-}
-
-class SaldoInsuficienteError extends AplicacaoError {
-  constructor() {
-    super("Saldo insuficiente.")
-  }
-}
-
-class ValorInvalidoError extends AplicacaoError {
-  constructor() {
-    super("Valor inválido para operação.")
-  }
-}
-
-class PoupancaInvalidaError extends AplicacaoError {
-  constructor() {
-    super("Operação permitida apenas para contas poupança.")
-  }
-}
 export class Banco {
   contas: Conta[] = []
+
+
   inserir(conta: Conta): void {
     try {
+      //QUESTAO 13
       // Tenta consultar a conta pelo número
       this.consultar(conta.Numero)
       // Se a consulta não lançar exceção, significa que a conta já existe
@@ -154,6 +162,7 @@ export class Banco {
     }
   }
 
+  //QUESTAO 08
   consultar(numero: string): Conta {
     const contaEncontrada = this.contas.find(
       (conta) => conta.Numero === numero
@@ -166,6 +175,7 @@ export class Banco {
     }
   }
 
+  //QUESTAO 08
   consultarPorIndice(numero: string): number {
     const indiceProcurado = this.contas.findIndex(
       (conta) => conta.Numero === numero
@@ -226,6 +236,7 @@ export class Banco {
     return totalSaldo / totalContas
   }
 
+  //QUESTAO 12
   renderJuros(numero: string): void {
     try {
       let conta: Conta = this.consultar(numero)
@@ -256,6 +267,8 @@ do {
       "4 - Depositar      5 - Excluir         6 - Transferir\n" +
       "7 - Render Juros   0 - Sair\n"
   )
+  //QUESTAO 141
+  
  try {
     // ler uma opção pelo teclado
     opcao = input("Opcao: ")
