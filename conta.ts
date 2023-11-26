@@ -30,69 +30,74 @@ class AplicacaoError extends Error {
   }
   
   export class Conta {
-    private numero: string;
-    private saldo: number;
+    private numero: string
+    private saldo: number
   
     constructor(numero: string, saldo: number) {
-      this.numero = numero;
-      this.saldo = 0; // Inicializa o saldo com zero
+      this.numero = numero
+      this.saldo = 0 // Inicializa o saldo com zero
   
+       // REferente a questão 15
+      if (!numero || typeof saldo !== "number") {
+          throw new ValorInvalidoError()
+        }
+    
       // Utiliza o método depositar para atribuir o saldo inicial
       try {
-        this.depositar(saldo);
-      } catch (error) {
+        this.depositar(saldo)
+      } catch (error : any) {
         if (error instanceof AplicacaoError) {
-          console.error(`Erro na aplicação: ${error.message}`);
+          console.error(`Erro na aplicação: ${error.message}`)
         } else {
-          console.error(`Erro desconhecido: ${error.message}`);
+          console.error(`Erro desconhecido: ${error.message}`)
         }
       }
     }
   
     get Numero(): string {
-        return this.numero
+      return this.numero
     }
   
     get Saldo(): number {
-        return this.saldo
+      return this.saldo
     }
     private validarValor(valor: number): void {
       if (valor <= 0) {
-        throw new ValorInvalidoError();
+        throw new ValorInvalidoError()
       }
     }
   
     depositar(valor: number): void {
-      this.validarValor(valor);
-      this.saldo = this.saldo + valor;
+      this.validarValor(valor)
+      this.saldo = this.saldo + valor
     }
   
     sacar(valor: number): void {
-      this.validarValor(valor);
+      this.validarValor(valor)
   
       if (this.saldo < valor) {
-        throw new SaldoInsuficienteError();
+        throw new SaldoInsuficienteError()
       }
   
-      this.saldo = this.saldo - valor;
+      this.saldo = this.saldo - valor
     }
   
     consultarSaldo(): number {
-      return this.saldo;
+      return this.saldo
     }
   
     transferir(contaDestino: Conta, valor: number): boolean {
       try {
-        this.sacar(valor);
-        contaDestino.depositar(valor);
-        return true;
-      } catch (error) {
+        this.sacar(valor)
+        contaDestino.depositar(valor)
+        return true
+      } catch (error: any) {
         if (error instanceof AplicacaoError) {
-          console.error(`Erro na aplicação: ${error.message}`);
+          console.error(`Erro na aplicação: ${error.message}`)
         } else {
-          console.error(`Erro desconhecido: ${error.message}`);
+          console.error(`Erro desconhecido: ${error.message}`)
         }
-        return false;
+        return false
       }
     }
   }
@@ -100,16 +105,16 @@ class AplicacaoError extends Error {
     private taxaJuros: number
   
     constructor(numero: string, saldo: number, taxaJuros: number) {
-        super(numero,saldo)
-        this.taxaJuros = taxaJuros
+      super(numero, saldo)
+      this.taxaJuros = taxaJuros
     }
   
     public renderJuros(): void {
-        this.depositar(this.Saldo * (this.taxaJuros / 100))
+      this.depositar(this.Saldo * (this.taxaJuros / 100))
     }
   
     get TaxaJuros(): number {
-        return this.taxaJuros
+      return this.taxaJuros
     }
   }
   
@@ -117,13 +122,12 @@ class AplicacaoError extends Error {
     private _taxaDesconto: number
   
     constructor(numero: string, saldo: number, taxaDesconto: number) {
-        super(numero, saldo)
-        this._taxaDesconto = taxaDesconto
+      super(numero, saldo)
+      this._taxaDesconto = taxaDesconto
     }
   
     public debitar(valor: number): void {
-        let total = valor + valor * (this._taxaDesconto / 100)
-        super.sacar(total)
+      let total = valor + valor * (this._taxaDesconto / 100)
+      super.sacar(total)
     }
   }
-  
