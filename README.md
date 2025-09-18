@@ -9,19 +9,24 @@ Este projeto é um exemplo de implementação de um sistema bancário em TypeScr
 /src
 /models
 ContaBasica.ts # Conta simples, operações básicas sem validações avançadas
+
 ContaValidacoes.ts # Conta com validações de valores e saldo insuficiente
+
 Poupanca.ts # Conta poupança com juros
+
 ContaImposto.ts # Conta com taxa de desconto
+
 /services
 Banco.ts # Lógica de gerenciamento de contas (inserir, consultar, alterar, excluir, transferir)
+
 BancoSimples.ts # Versão simplificada de Banco para testes
+
 /examples
 TratamentoErros.ts # Exemplos de tratamento de erros: ignorar, exibir mensagem, retornar código de erro
+
 /app
 App.ts # Ponto de entrada do projeto, menu de interação com usuário
 
-yaml
-Copiar código
 
 ---
 
